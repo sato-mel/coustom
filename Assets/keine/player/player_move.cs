@@ -13,7 +13,7 @@ public class player_move : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    [SerializeField]
+
     private int upForce;
 
     private int hanten;
@@ -31,8 +31,9 @@ public class player_move : MonoBehaviour
         LeftMove = 18;
         jumpCount = 0;
         hanten = 1;
+        upForce = 400;
         rb = GetComponent<Rigidbody2D>();
- 
+
         scale = transform.localScale;
 
         isRight = true;
@@ -43,10 +44,10 @@ public class player_move : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {  
+    {
         Jump();
         Move();
-        
+
     }
 
     private void Update()
@@ -54,7 +55,7 @@ public class player_move : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             isJump = true;
-
+           // CPData.Player_junpCount += 1;
 
         }
 
@@ -127,16 +128,27 @@ public class player_move : MonoBehaviour
 
     void Jump()
     {
+        //ハイジャンプ
+        if (CPData.CustomHigh)
+        {
+            upForce = 800;
+        }
+
+
+        if (!CPData.CustomHigh)
+        {
+            upForce = 400;
+        }
+
 
         //重力
-     this.rb.AddForce(new Vector3(0, -6, 0));
+        this.rb.AddForce(new Vector3(0, -6, 0));
 
         //ジャンプ処理
-        //弾を打ちながらジャンプすると何故かジャンプ力が高くなるので後ほど修正
         if (jumpCount < 2)
         {
-           if(isJump)
-            { 
+            if (isJump)
+            {
                 this.rb.AddForce(new Vector3(0, upForce, 0));
                 jumpCount++;
                 isJump = false;
@@ -144,7 +156,7 @@ public class player_move : MonoBehaviour
 
             }
         }
-    
+
     }
 
 
@@ -159,7 +171,7 @@ public class player_move : MonoBehaviour
         {
             jumpCount = 0;
         }
-        
+
     }
 
 
@@ -167,7 +179,7 @@ public class player_move : MonoBehaviour
     private void OnCollisionStay2D(Collision2D other)
     {
         //床に当たったらカウントゼロ
-       
+
         if (other.gameObject.tag == "RightWall")
         {
             isWallRight = true;

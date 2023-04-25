@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class CP_hp : MonoBehaviour
@@ -30,7 +31,9 @@ public class CP_hp : MonoBehaviour
         //ÉvÉåÉCÉÑÅ[ÇÃHP
         if (HP < 0)
         {
-            Destroy(this.gameObject);
+            SceneManager.LoadScene("game_over");
+            //    Destroy(this.gameObject);
+            //  return;
         }
 
   // Debug.Log(muteki);
@@ -62,7 +65,17 @@ public class CP_hp : MonoBehaviour
                 HP -= 3;
                 Color_red = true;
             }
-            muteki= 1;
+            if (other.gameObject.tag == "BOSS_Bullet")
+            {
+                HP -= 2;
+                Color_red = true;
+            }
+            if (other.gameObject.tag == "BOSS_Bullet2")
+            {
+                HP -= 4;
+                Color_red = true;
+            }
+            muteki = 1;
         }
        
     }
