@@ -21,11 +21,6 @@ public class CPData : MonoBehaviour
     public static bool CustomNo2 = false;
 
 
-
-    public static int Glid_Lv = 1;
-    public static bool Glid_Flag = true;
-    public static bool Glid_Lv1 = false;
-    public static bool Glid_Lv2 = false;
     
         
         

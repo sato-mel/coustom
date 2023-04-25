@@ -9,11 +9,15 @@ public class test : MonoBehaviour
     [SerializeField]
     private int upForce;
 
+
+    private int defaltUpForce;
+
     private bool isGlid = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        defaltUpForce = 12;
 
     }
 
@@ -42,7 +46,7 @@ public class test : MonoBehaviour
 
         if (isGlid)
         {
-            this.rb.AddForce(new Vector3(0, upForce, 0));
+            this.rb.AddForce(new Vector3(0, defaltUpForce, 0));
         }
     }
 }
