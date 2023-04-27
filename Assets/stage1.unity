@@ -4661,7 +4661,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7701793467772126221, guid: a5f0528975b52d0418924658116cac96, type: 3}
   m_PrefabInstance: {fileID: 7701793468183835668}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7701793468183835676
+--- !u!114 &7701793468183835682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4670,7 +4670,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 843949268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e34597a7f948d1c4192696f1a8e3ac34, type: 3}
+  m_Script: {fileID: 11500000, guid: 97ac9efa8d41abb4b9e116839fee63c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 12
+  backpackPoint: {fileID: 395024546}
+  glidingEquipment: {fileID: 1692721163149632650, guid: 39224ae3930f03c4d8b667d718b02ecc, type: 3}
