@@ -2441,6 +2441,60 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
+--- !u!1 &1356066976 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2599646052915212129, guid: 9bfc6c7e3a550134495154cdae76c1cc, type: 3}
+  m_PrefabInstance: {fileID: 1900260991458749072}
+  m_PrefabAsset: {fileID: 0}
+--- !u!60 &1356066984
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356066976}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3, y: 3}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.96999997, y: -0.57}
+      - {x: 0.81, y: -0.31}
+      - {x: 0.55, y: 0.14}
+      - {x: 0.32999998, y: 0.52}
+      - {x: 0.14, y: 0.84999996}
+      - {x: 0.089999996, y: 0.91999996}
+      - {x: 0.049999997, y: 0.94}
+      - {x: 0.02, y: 0.95}
+      - {x: -0.03, y: 0.95}
+      - {x: -0.11, y: 0.90999997}
+      - {x: -0.17999999, y: 0.78}
+      - {x: -0.25, y: 0.65999997}
+      - {x: -0.32999998, y: 0.52}
+      - {x: -0.48, y: 0.26}
+      - {x: -0.55, y: 0.14}
+      - {x: -0.84999996, y: -0.38}
+      - {x: -1.04, y: -0.71}
+      - {x: -1.0699999, y: -0.78}
+      - {x: -1.0699999, y: -0.89}
+      - {x: -0.98999995, y: -0.95}
+      - {x: 0.96, y: -0.95}
+      - {x: 1.02, y: -0.93}
+      - {x: 1.0699999, y: -0.87}
+      - {x: 1.0699999, y: -0.76}
 --- !u!1 &1362526331
 GameObject:
   m_ObjectHideFlags: 0
@@ -7198,7 +7252,8 @@ PrefabInstance:
       propertyPath: next_stage
       value: game_clear
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1900260991420110439, guid: 9bfc6c7e3a550134495154cdae76c1cc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9bfc6c7e3a550134495154cdae76c1cc, type: 3}
 --- !u!1001 &7701793468183835668
 PrefabInstance:

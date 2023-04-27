@@ -66,7 +66,7 @@ public class Boss_custom_manager : MonoBehaviour
         BulletLv();
 
 
-        
+
 
 
 
@@ -85,34 +85,37 @@ public class Boss_custom_manager : MonoBehaviour
             //        // ÉmÅ[É}ÉãÇÃíe
             //        ShotNolmal_Lv1();
             //    }
-
-            if (weaponStopCount <=10)
+            if (!CPData.LastResort)
             {
-                if (weaponCount > 0.3f)
+                if (weaponStopCount <= 10)
                 {
-                    //ÉmÅ[É}ÉãÇÃíeÉåÉxÉã2
-                    ShotNolmal_Lv1();
-                    weaponCount = 0.0f;
-                   
-                    weaponStopCount += 1;
-                }
-            }
-            if (weaponStopCount > 10)
-            {
-                if (weaponCount > 0.3f)
-                {
-                    //ÉmÅ[É}ÉãÇÃíeÉåÉxÉã2
-                    ShotNolmal_Lv2();
-                    weaponCount = 0.0f;
-                    if(weaponStopCount>=20)
+                    if (weaponCount > 0.3f)
                     {
-                        weaponStopCount = 0;
+                        //ÉmÅ[É}ÉãÇÃíeÉåÉxÉã2
+                        ShotNolmal_Lv1();
+                        weaponCount = 0.0f;
+
+                        weaponStopCount += 1;
                     }
-                    weaponStopCount += 1;
+                }
+                if (weaponStopCount > 10)
+                {
+                    if (weaponCount > 0.3f)
+                    {
+                        //ÉmÅ[É}ÉãÇÃíeÉåÉxÉã2
+                        ShotNolmal_Lv2();
+                        weaponCount = 0.0f;
+                        if (weaponStopCount >= 20)
+                        {
+                            weaponStopCount = 0;
+                        }
+                        weaponStopCount += 1;
+                    }
                 }
             }
 
-            if(LastResortCount>=20)
+            //ïKéE
+            if (LastResortCount >= 10)
             {
                 Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 CPData.LastResort = true;

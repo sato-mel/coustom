@@ -84,6 +84,15 @@ public class custom_manager : MonoBehaviour
                     ShotNolmal_Lv2();
                 }
             }
+            if (Input.GetKey(KeyCode.G))
+            {
+                if (CPData.ArmShot_norml_Lv3)
+                {
+                    //ノーマルの弾レベル2
+                    ShotNolmal_Lv3();
+                }
+            }
+
             //サブカスタム
             if (CPData.CustomNo2)
             {
@@ -155,12 +164,19 @@ public class custom_manager : MonoBehaviour
             Bullet_false();
             CPData.ArmShot_norml_Lv2 = true;
         }
+        if (CPData.ArmShot_norml_Lv == 3)
+        {
+            //  Debug.Log("レベル2");
+            Bullet_false();
+            CPData.ArmShot_norml_Lv3 = true;
+        }
     }
 
     private void Bullet_false()
     {
         CPData.ArmShot_norml_Lv1 = false;
         CPData.ArmShot_norml_Lv2 = false;
+        CPData.ArmShot_norml_Lv3 = false;
     }
 
     private void Custom_false()
@@ -243,45 +259,55 @@ public class custom_manager : MonoBehaviour
     }
 
 
-    //private void ShotNolmal_Lv3()
-    //{
+    private void ShotNolmal_Lv3()
+    {
+        //  Debug.Log("reberu3333333");
+
+        float bulletSpeed = 10f; //弾の速度
+        float bulletAmplitude = 0.5f; //弾の振幅
+        float bulletFrequency = 1f; //弾の周波数
+                                    // float bulletLifetime = 2f; //弾の寿命
+
+        //弾の速さ
+        speed = 600;
+
+        // 弾を発射する場所を取得
+        //  Vector3 bulletPosition = firingPoint.transform.position;
+        Vector3 bulletPosition3 = firingPoint3.transform.position;
+        // 上で取得した場所に、"bullet"のPrefabを出現させる
+        // GameObject Bullet = Instantiate(bullet, bulletPosition, transform.rotation);
+        GameObject BulletLv3 = Instantiate(bullet2, bulletPosition3, transform.rotation);
+        // 出現させたボールのforward(z軸方向)
+        Vector3 direction = BulletLv3.transform.right;
+        //  Vector3 direction2 = BulletLv2.transform.right;
+        // 弾の発射方向にnewBallのz方向(ローカル座標)を入れ、弾オブジェクトのrigidbodyに衝撃力を加える
+        // float bulletAngle = Mathf.Sin(Time.time * bulletFrequency) * bulletAmplitude;
+        if (CPData.Right)
+        {
+            // 弾を発射する方向に力を加える
+            float bulletAngle = Mathf.Sin(Time.time * bulletFrequency) * bulletAmplitude;
+            Vector2 bulletDirection = Quaternion.AngleAxis(bulletAngle, Vector3.forward) * direction;
+            BulletLv3.GetComponent<Rigidbody2D>().AddForce(bulletDirection * bulletSpeed, ForceMode2D.Impulse);
 
 
-    //    //弾の速さ
-    //    speed = 1000;
-
-    //    // 弾を発射する場所を取得
-    //    //  Vector3 bulletPosition = firingPoint.transform.position;
-    //    Vector3 bulletPosition2 = firingPoint2.transform.position;
-    //    // 上で取得した場所に、"bullet"のPrefabを出現させる
-    //    // GameObject Bullet = Instantiate(bullet, bulletPosition, transform.rotation);
-    //    GameObject BulletLv3 = Instantiate(bullet2, bulletPosition2, transform.rotation);
-    //    // 出現させたボールのforward(z軸方向)
-    //    Vector3 direction = BulletLv3.transform.right;
-    //    //  Vector3 direction2 = BulletLv2.transform.right;
-    //    // 弾の発射方向にnewBallのz方向(ローカル座標)を入れ、弾オブジェクトのrigidbodyに衝撃力を加える
-    //    if (CPData.Right)
-    //    {
-    //        //  Bullet.GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Force);
-    //        BulletLv3.GetComponent<Rigidbody2D>().AddForce(direction * speed, ForceMode2D.Force);
-    //    }
-    //    else
-    //    {
-    //        //弾飛んでく方向反転
-    //        // Bullet.GetComponent<Rigidbody2D>().AddForce(direction * -speed, ForceMode2D.Force);
-    //        BulletLv3.GetComponent<Rigidbody2D>().AddForce(direction * -speed, ForceMode2D.Force);
-    //    }
-    //    // 出現させたボールの名前を"bullet"に変更
-    //    // Bullet.name = bullet.name;
-    //    BulletLv3.name = bullet2.name;
-    //    // 出現させたボールを0.8秒後に消す
-    //    // Destroy(Bullet, 5f);
-    //    Destroy(BulletLv3, 5f);
+        }
+        else
+        {
+            //弾飛んでく方向反転
+            // Bullet.GetComponent<Rigidbody2D>().AddForce(direction * -speed, ForceMode2D.Force);
+           // BulletLv3.GetComponent<Rigidbody2D>().AddForce(direction * -speed, ForceMode2D.Force);
+        }
+        // 出現させたボールの名前を"bullet"に変更
+        // Bullet.name = bullet.name;
+        BulletLv3.name = bullet2.name;
+        // 出現させたボールを0.8秒後に消す
+        // Destroy(Bullet, 5f);
+        Destroy(BulletLv3, 5f);
 
 
 
 
-    //}
+    }
 
 
 
