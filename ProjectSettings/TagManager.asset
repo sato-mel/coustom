@@ -15,6 +15,7 @@ TagManager:
   - BOSS_Bullet
   - BOSS_Bullet2
   - BOSS
+  - Gulider
   layers:
   - Default
   - TransparentFX
