@@ -12,6 +12,9 @@ TagManager:
   - RightWall
   - LeftWall
   - Penetration_Bullet
+  - BOSS_Bullet
+  - BOSS_Bullet2
+  - BOSS
   - Gulider
   layers:
   - Default
