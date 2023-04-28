@@ -82,7 +82,7 @@ public class enemy_move : MonoBehaviour
 
 
         gameObject.transform.localScale = scale;
-        transform.Translate(0.0f, eneMove2 * Time.deltaTime * speed, 0.0f);
+        transform.Translate(0.0f, eneMove2 * Time.deltaTime * speed2, 0.0f);
 
         move_count2 += Time.deltaTime;
         //   Debug.Log(move_count);
