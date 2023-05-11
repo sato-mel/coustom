@@ -4863,11 +4863,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7701793467772126210, guid: a5f0528975b52d0418924658116cac96, type: 3}
       propertyPath: m_GravityScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7701793467772126211, guid: a5f0528975b52d0418924658116cac96, type: 3}
       propertyPath: upForce
       value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701793467772126211, guid: a5f0528975b52d0418924658116cac96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7701793467772126216, guid: a5f0528975b52d0418924658116cac96, type: 3}
       propertyPath: bullet3
@@ -4939,3 +4943,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backpackPoint: {fileID: 395024546}
   glidingEquipment: {fileID: 1692721163149632650, guid: 39224ae3930f03c4d8b667d718b02ecc, type: 3}
+--- !u!114 &7701793468183835683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843949268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a51c5b484f7ea148aabedaf334d82be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LRMove: 9
+  JumpPower: 10
+  Gravity: 20
+  JumpLimit: 2
+  FallVelLimit: 10
+  Resistance: 0
