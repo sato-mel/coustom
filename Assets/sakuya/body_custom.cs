@@ -14,6 +14,11 @@ public class body_custom : MonoBehaviour
     [SerializeField]
     [Tooltip("ŠŠ‹ó‘•”õ")]
     private GameObject glidingEquipment;
+    
+    [SerializeField]
+    [Tooltip("ŠŠ‹ó‘¬“x")]
+    private int glidingSpeed;
+
 
 
     private int normalUpForce;
@@ -22,7 +27,7 @@ public class body_custom : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        normalUpForce = 12;
+        normalUpForce = glidingSpeed;
 
         // ‘•”õ‚ğ•\¦‚·‚éêŠ‚Ìæ“¾
  //       Vector3 backPackPosition = backpackPoint.transform.position;

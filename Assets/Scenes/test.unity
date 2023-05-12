@@ -404,6 +404,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 10
+  R: 0
+  G: 0
+  B: 0
 --- !u!212 &173083395
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -483,6 +486,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd797cdb32c0de49b35e0ec841ac3fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  max: 0
+  speed: 0
+  max2: 0
+  speed2: 0
 --- !u!1 &268302548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,6 +1872,44 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1175494016 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7701793467772126208, guid: a5f0528975b52d0418924658116cac96, type: 3}
+  m_PrefabInstance: {fileID: 7701793468183835668}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1175494024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175494016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a51c5b484f7ea148aabedaf334d82be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LRMove: 0
+  JumpPower: 0
+  Gravity: 0
+  JumpLimit: 0
+  FallVelLimit: 0
+  Resistance: 0
+--- !u!114 &1175494025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175494016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ac9efa8d41abb4b9e116839fee63c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backpackPoint: {fileID: 0}
+  glidingEquipment: {fileID: 0}
+  glidingSpeed: 25
 --- !u!1 &1216649019
 GameObject:
   m_ObjectHideFlags: 0
