@@ -5,26 +5,28 @@ using UnityEngine;
 public class Leg_Custom : MonoBehaviour
 {
     private bool DebugMode = false; // trueの時はSerializeを参照する。
-    [SerializeField] private float LRMove; // 移動速度
+    [SerializeField] private float MoveVelLimit; // 移動速度制限
     [SerializeField] private float JumpPower; // ジャンプ力。初速に代入される。
     [SerializeField] private float Gravity; // 重力
-    [SerializeField] private int JumpLimit; // ジャンプ回数
+    [SerializeField] private int JumpLimit; // ジャンプ回数制限
     [SerializeField] private float FallVelLimit; // 落下速度制限
-    [SerializeField] private float Resistance; // 滑りやすさ、抵抗
-    
+    [SerializeField] private int AccelFrame; // 最高速度に達するまでの時間（0.02s）
+
+    private float MoveVel; // 移動速度
+
     private float JumpVel = 0.0f; // 上下移動速度
-    private float JumpInitVel = 0.0f; // ジャンプ初速。
-    private float JumpHeight; // ジャンプの高さ
+    private float JumpInitVel = 0.0f; // ジャンプ初速。（ただしジャンプせずに空中に出た場合は0）
+    private float JumpHeight; // ジャンプの高さ（デバッグ・調整用）
     private float JumpTime; // 滞空時間
 
-    private const int LegCustomNo = 1; // カスタムの種類
-    int CurrentLegCustom = 0; // 使用中のカスタム
-    private int[] LegCustomLv = new int[LegCustomNo]; // カスタムごとのレベル
-
-    //   private float jump = 0.0f;
     private bool PreJump = false; // ジャンプする予約
-    private bool isJump = true; // ジャンプしているか
-    private int jumpCount;
+    private bool isJump = true; // 空中にいる（ジャンプしている）か
+    private int jumpCount; // ジャンプした回数（着地リセット）
+
+    private const int LegCustomNum = 3; // カスタムの種類
+    int LegCustomCurrent = 0; // 使用中のカスタム
+    private int[] LegCustomLv = new int[LegCustomNum]; // カスタムごとのレベル
+    private int LegCustomMaxLv = 4;
 
     private Rigidbody2D rb;
 
@@ -36,29 +38,121 @@ public class Leg_Custom : MonoBehaviour
 
     Vector2 scale;
 
-    private void LegCustom0Lv0()
+    private void LegCustom0Lv1()
     {
-        LRMove = 9.0f; // 移動速度
+        MoveVelLimit = 10.0f; // 移動速度
         JumpPower = 10.0f; // ジャンプ初速度
         Gravity = 20.0f; // 重力
         JumpLimit = 2; // ジャンプ回数
         FallVelLimit = 10.0f; // 落下速度制限
-        Resistance = 0.0f; // 滑りやすさ、抵抗
+        AccelFrame = 25; // 滑りやすさ、抵抗
     }
-    private void LegCustom0Lv1()
+    private void LegCustom0Lv2()
     {
-        LRMove = 18.0f; // 移動速度
-        JumpPower = 20.0f; // ジャンプ初速度
-        Gravity = 40.0f; // 重力
+        MoveVelLimit = 10.0f; // 移動速度
+        JumpPower = 10.0f; // ジャンプ初速度
+        Gravity = 20.0f; // 重力
         JumpLimit = 3; // ジャンプ回数
         FallVelLimit = 20.0f; // 落下速度制限
-        Resistance = 0.0f; // 滑りやすさ、抵抗
+        AccelFrame = 25; // 滑りやすさ、抵抗
+    }
+    private void LegCustom0Lv3()
+    {
+        MoveVelLimit = 10.0f; // 移動速度
+        JumpPower = 10.0f; // ジャンプ初速度
+        Gravity = 20.0f; // 重力
+        JumpLimit = 3; // ジャンプ回数
+        FallVelLimit = 10.0f; // 落下速度制限
+        AccelFrame = 15; // 滑りやすさ、抵抗
+    }
+    private void LegCustom0Lv4()
+    {
+        MoveVelLimit = 10.0f; // 移動速度
+        JumpPower = 10.0f; // ジャンプ初速度
+        Gravity = 20.0f; // 重力
+        JumpLimit = 4; // ジャンプ回数
+        FallVelLimit = 10.0f; // 落下速度制限
+        AccelFrame = 15; // 滑りやすさ、抵抗
+    }
+
+    private void LegCustom1Lv1()
+    {
+        MoveVelLimit = 12.0f; // 移動速度
+        JumpPower = 12.0f; // ジャンプ初速度
+        Gravity = 28.8f; // 重力
+        JumpLimit = 1; // ジャンプ回数
+        FallVelLimit = 12.0f; // 落下速度制限
+        AccelFrame = 25; // 滑りやすさ、抵抗
+    }
+    private void LegCustom1Lv2()
+    {
+        MoveVelLimit = 14.0f; // 移動速度
+        JumpPower = 12.0f; // ジャンプ初速度
+        Gravity = 28.8f; // 重力
+        JumpLimit = 1; // ジャンプ回数
+        FallVelLimit = 12.0f; // 落下速度制限
+        AccelFrame = 25; // 滑りやすさ、抵抗
+    }
+    private void LegCustom1Lv3()
+    {
+        MoveVelLimit = 14.0f; // 移動速度
+        JumpPower = 14.0f; // ジャンプ初速度
+        Gravity = 39.2f; // 重力
+        JumpLimit = 1; // ジャンプ回数
+        FallVelLimit = 14.0f; // 落下速度制限
+        AccelFrame = 15; // 滑りやすさ、抵抗
+    }
+    private void LegCustom1Lv4()
+    {
+        MoveVelLimit = 16.0f; // 移動速度
+        JumpPower = 14.0f; // ジャンプ初速度
+        Gravity = 39.2f; // 重力
+        JumpLimit = 1; // ジャンプ回数
+        FallVelLimit = 14.0f; // 落下速度制限
+        AccelFrame = 10; // 滑りやすさ、抵抗
+    }
+
+    private void LegCustom2Lv1()
+    {
+        MoveVelLimit = 10.0f; // 移動速度
+        JumpPower = 24.0f; // ジャンプ初速度
+        Gravity = 48.0f; // 重力
+        JumpLimit = 1; // ジャンプ回数
+        FallVelLimit = 30.0f; // 落下速度制限
+        AccelFrame = 25; // 滑りやすさ、抵抗
+    }
+    private void LegCustom2Lv2()
+    {
+        MoveVelLimit = 10.0f; // 移動速度
+        JumpPower = 28.0f; // ジャンプ初速度
+        Gravity = 56.0f; // 重力
+        JumpLimit = 1; // ジャンプ回数
+        FallVelLimit = 30.0f; // 落下速度制限
+        AccelFrame = 25; // 滑りやすさ、抵抗
+    }
+    private void LegCustom2Lv3()
+    {
+        MoveVelLimit = 10.0f; // 移動速度
+        JumpPower = 32.0f; // ジャンプ初速度
+        Gravity = 64.0f; // 重力
+        JumpLimit = 1; // ジャンプ回数
+        FallVelLimit = 30.0f; // 落下速度制限
+        AccelFrame = 15; // 滑りやすさ、抵抗
+    }
+    private void LegCustom2Lv4()
+    {
+        MoveVelLimit = 10.0f; // 移動速度
+        JumpPower = 40.0f; // ジャンプ初速度
+        Gravity = 80.0f; // 重力
+        JumpLimit = 1; // ジャンプ回数
+        FallVelLimit = 30.0f; // 落下速度制限
+        AccelFrame = 15; // 滑りやすさ、抵抗
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        CurrentLegCustom = 0;
+        LegCustomCurrent = 0;
         jumpCount = 0;
         hanten = 1;
         rb = GetComponent<Rigidbody2D>();
@@ -69,6 +163,11 @@ public class Leg_Custom : MonoBehaviour
         isLeft = false;
         isWallLeft = false;
         isWallRight = false;
+
+        for (int i = 0; i < LegCustomNum; i++)
+        {
+            LegCustomLv[i] = 1;
+        }
 
         InputLeg(); // カスタム・レベルによる能力を反映する
         
@@ -83,7 +182,7 @@ public class Leg_Custom : MonoBehaviour
 
     private void Update()
     {
-        LegCustom(); // デバッグ用。手動レベル切り替え
+        LegCustom(); // デバッグ用。手動レベル・カスタム切り替え
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (jumpCount < JumpLimit)
@@ -95,6 +194,10 @@ public class Leg_Custom : MonoBehaviour
 
     void Move()
     {
+        // 押している間、最高速度まで上がり続ける
+        // 押されていないとき、直前の速度から下がり続ける
+        // 移動は押されていないときも必要
+
         //Vector2 scale = gameObject.transform.localScale;
         //移動処理
         if (!isWallLeft)
@@ -113,14 +216,26 @@ public class Leg_Custom : MonoBehaviour
                 }
                 scale.x *= hanten;
 
-//                LRVelocity = -18.0f;
-//                LRMove = LRVelocity;
-                transform.Translate(-LRMove * Time.deltaTime, 0.0f, 0.0f);
+                if (MoveVel > -MoveVelLimit)
+                {
+                    MoveVel -= MoveVelLimit / AccelFrame;
+                }
+//                transform.Translate(MoveVel * Time.deltaTime, 0.0f, 0.0f);
                 gameObject.transform.localScale = scale;
                 isWallRight = false;
                 CPData.Right = false;
             }
-            
+            else
+            {
+                if (MoveVel < 0)
+                {
+                    MoveVel += MoveVelLimit / AccelFrame;
+                    if (MoveVel > 0)
+                    {
+                        MoveVel = 0;
+                    }
+                }
+            }
         }
         if (!isWallRight)
         {
@@ -138,15 +253,30 @@ public class Leg_Custom : MonoBehaviour
                 }
 
                 scale.x *= hanten;
-
+                if (MoveVel < MoveVelLimit)
+                {
+                    MoveVel += MoveVelLimit / AccelFrame;
+                }
+                //                transform.Translate(MoveVel * Time.deltaTime, 0.0f, 0.0f);
                 gameObject.transform.localScale = scale;
-                transform.Translate(LRMove * Time.deltaTime, 0.0f, 0.0f);
-
                 isRight = true;
                 isWallLeft = false;
                 CPData.Right = true;
             }
+            else
+            {
+                if (MoveVel > 0)
+                {
+                    MoveVel -= MoveVelLimit / AccelFrame;
+                    if (MoveVel < 0)
+                    {
+                        MoveVel = 0;
+                    }
+                }
+            }
         }
+
+        transform.Translate(MoveVel * Time.deltaTime, 0.0f, 0.0f);
 
         //上方向と下方向を作る
 
@@ -158,7 +288,6 @@ public class Leg_Custom : MonoBehaviour
         {
             jumpCount++;
             PreJump = false;
-            Debug.Log("ジャンプ");
             isJump = true;
             JumpTime = 0;
             JumpInitVel = JumpPower; // ジャンプする場合に代入する。
@@ -166,7 +295,7 @@ public class Leg_Custom : MonoBehaviour
         if (isJump) // ジャンプ中（空中の処理）
         {
             JumpVel = JumpInitVel - Gravity * JumpTime; // 速度＝初速-重力加速度*時間
-            transform.Translate(0.0f, JumpVel * 0.02f, 0.0f);
+            transform.Translate(0.0f, JumpVel * Time.deltaTime, 0.0f);
 
             JumpTime += 0.02f; // FixedUpdateの更新時間は0.02秒。
         }
@@ -176,76 +305,138 @@ public class Leg_Custom : MonoBehaviour
 
     private void InputLeg() // カスタム・レベルによる能力を反映する
     {
-        if (DebugMode == false)
+        if (DebugMode == true)
+            return;
+        switch (LegCustomCurrent) // 現在のカスタムNo.
         {
-            // 移動速度、ジャンプ高度、ジャンプ回数、落下速度、滑りやすさ等
-            if (CurrentLegCustom == 0)
-            {
-                if (LegCustomLv[CurrentLegCustom] == 0)
-                {
-                    LegCustom0Lv0();
-                }
-                if (LegCustomLv[CurrentLegCustom] == 1)
-                {
-                    LegCustom0Lv1();
-                }
-            }
-            Debug.Log("更新");
-            JumpHeight = JumpPower * JumpPower / 2 / Gravity;
-            Debug.Log(JumpHeight);
+            case 0:
+                LegCustom0();
+                break;
+            case 1:
+                LegCustom1();
+                break;
+            case 2:
+                LegCustom2();
+                break;
         }
+        JumpHeight = JumpPower * JumpPower / 2 / Gravity; // デバッグ用。ジャンプの高さ明示用。
+        Debug.Log("カスタムNo." + LegCustomCurrent + "、Lv." + LegCustomLv[LegCustomCurrent] + "、ジャンプ力：" + JumpHeight);
+    }
 
+    private void LegCustom0()
+    {
+        switch (LegCustomLv[0]) // カスタムNo.0のレベル
+        {
+            case 1:
+                LegCustom0Lv1();
+                break;
+            case 2:
+                LegCustom0Lv2();
+                break;
+            case 3:
+                LegCustom0Lv3();
+                break;
+            case 4:
+                LegCustom0Lv4();
+                break;
+        }
+    }
+
+    private void LegCustom1()
+    {
+        switch (LegCustomLv[1]) // カスタムNo.1のレベル
+        {
+            case 1:
+                LegCustom1Lv1();
+                break;
+            case 2:
+                LegCustom1Lv2();
+                break;
+            case 3:
+                LegCustom1Lv3();
+                break;
+            case 4:
+                LegCustom1Lv4();
+                break;
+        }
+    }
+
+    private void LegCustom2()
+    {
+        switch (LegCustomLv[2]) // カスタムNo.2のレベル
+        {
+            case 1:
+                LegCustom2Lv1();
+                break;
+            case 2:
+                LegCustom2Lv2();
+                break;
+            case 3:
+                LegCustom2Lv3();
+                break;
+            case 4:
+                LegCustom2Lv4();
+                break;
+        }
     }
 
     private void LegCustom() // デバッグ用。手動レベル切り替え
     {
-        //レベルアップ
+        // レベルアップ
         if (Input.GetKeyDown(KeyCode.N)) // キー被り要注意
         {
-            LegCustomLv[CurrentLegCustom]++;
-            if (LegCustomLv[CurrentLegCustom] > 1)
+            LegCustomLv[LegCustomCurrent]++;
+            if (LegCustomLv[LegCustomCurrent] > LegCustomMaxLv)
             {
-                LegCustomLv[CurrentLegCustom] = 1;
+                LegCustomLv[LegCustomCurrent] = LegCustomMaxLv;
             }
             else
             {
-                Debug.Log("Nレベルアップ");
-                Debug.Log(LegCustomLv[CurrentLegCustom]);
-                InputLeg();
+                InputLeg(); // カスタム・レベルによる能力を反映する
             }
         }
-        //レベルダウン
+        // レベルダウン
         if (Input.GetKeyDown(KeyCode.M)) // キー被り要注意
         {
-            LegCustomLv[CurrentLegCustom] --;
-            if (LegCustomLv[CurrentLegCustom] < 0)
+            LegCustomLv[LegCustomCurrent] --;
+            if (LegCustomLv[LegCustomCurrent] < 1)
             {
-                LegCustomLv[CurrentLegCustom] = 0;
+                LegCustomLv[LegCustomCurrent] = 1;
             }
             else
             {
-                Debug.Log("Mレベルダウン");
-                Debug.Log(LegCustomLv[CurrentLegCustom]);
-                InputLeg();
+                InputLeg(); // カスタム・レベルによる能力を反映する
             }
         }
-        ////メインウェポン
-        //if (Input.GetKeyDown(KeyCode.F1))
-        //{
-        //    Custom_false();
-        //    CPData.CustomNo1 = true;
-        //    // Debug.Log("メインウェポンに変わった");
-        //}
-        ////サブウェポン
-        //if (Input.GetKeyDown(KeyCode.F2))
-        //{
-        //    Custom_false();
-        //    CPData.CustomNo2 = true;
-        //    // Debug.Log("サブウェポンに変わった");
-        //}
+
+        // カスタムNo.0に変更
+        if (Input.GetKeyDown(KeyCode.H)) // キー被り要注意
+        {
+            if (LegCustomCurrent != 0)
+            {
+                LegCustomCurrent = 0;
+                InputLeg(); // カスタム・レベルによる能力を反映する
+            }
+        }
+        // カスタムNo.1に変更
+        if (Input.GetKeyDown(KeyCode.J)) // キー被り要注意
+        {
+            if (LegCustomCurrent != 1)
+            {
+                LegCustomCurrent = 1;
+                InputLeg(); // カスタム・レベルによる能力を反映する
+            }
+        }
+        // カスタムNo.2に変更
+        if (Input.GetKeyDown(KeyCode.K)) // キー被り要注意
+        {
+            if (LegCustomCurrent != 2)
+            {
+                LegCustomCurrent = 2;
+                InputLeg(); // カスタム・レベルによる能力を反映する
+            }
+        }
     }
-
-
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -258,6 +449,17 @@ public class Leg_Custom : MonoBehaviour
             JumpTime = 0;
         }
 
+        // 壁に当たったらtrue
+        if (other.gameObject.tag == "RightWall")
+        {
+            isWallRight = true;
+            MoveVel = 0;
+        }
+        if (other.gameObject.tag == "LeftWall")
+        {
+            isWallLeft = true;
+            MoveVel = 0;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D other)
@@ -279,6 +481,12 @@ public class Leg_Custom : MonoBehaviour
         if (other.gameObject.tag == "Floor")
         {
             isJump = true;
+
+            // 床から落ちてもジャンプ回数（地上分）を消費（地上ジャンプ+空中ジャンプでカウント）
+            if (jumpCount == 0)
+            {
+                jumpCount = 1;
+            }
         }
 
     }
