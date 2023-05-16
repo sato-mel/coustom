@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class player_move : MonoBehaviour
@@ -22,6 +23,10 @@ public class player_move : MonoBehaviour
     private bool isWallLeft;
     private bool isWallRight;
 
+    private PlayerInput playerInput;
+    private Vector2 moveInput;
+    private InputActionMap map;
+
     Vector2 scale;
 
     // Start is called before the first frame update
@@ -42,9 +47,16 @@ public class player_move : MonoBehaviour
         isWallRight = false;
     }
 
+    private void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
+        map = playerInput.currentActionMap;
+
         Jump();
         Move();
 
@@ -52,7 +64,7 @@ public class player_move : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) ) 
         {
             isJump = true;
            // CPData.Player_junpCount += 1;
@@ -66,12 +78,17 @@ public class player_move : MonoBehaviour
     void Move()
     {
 
+        moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
+        float horizontalInput = moveInput.x;
+        // 左スティックの水平方向の入力を取得
+
+
         //Vector2 scale = gameObject.transform.localScale;
 
         //移動処理
         if (!isWallLeft)
         {
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A) || horizontalInput < 0)
             {
                 if (isRight)
                 {
@@ -93,7 +110,7 @@ public class player_move : MonoBehaviour
         }
         if (!isWallRight)
         {
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D) || horizontalInput > 0)
             {
                 if (isLeft)
                 {
