@@ -6,6 +6,15 @@
             "id": "96c0a735-402e-44f3-b4bc-7b4fe0b7ff18",
             "actions": [
                 {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "40987435-7d90-4dd3-bc7e-1f1c8cc3a14c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "b50a42a2-aa95-4766-9669-56001082da21",
@@ -15,9 +24,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jump",
+                    "name": "Attack",
                     "type": "Button",
-                    "id": "40987435-7d90-4dd3-bc7e-1f1c8cc3a14c",
+                    "id": "25b8256a-02fa-414c-8851-fbd249848506",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -88,6 +97,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f267eca-59b3-4f64-a078-caf7a5f184cc",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f310b5a0-0eda-46ad-a684-37bbafbbba35",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9a26f8f7-6214-4559-aff7-49d3120b6e34",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

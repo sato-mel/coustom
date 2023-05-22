@@ -52,6 +52,50 @@ public class arm_custom : MonoBehaviour
     [Tooltip("弾の速さ")]
     private float speed;
 
+    private CP_move_input pI;
+
+
+    private void Awake()
+    {
+        pI = new Action_Input();
+
+        // イベントの登録
+        pI.Player.Attack.performed += OnAttack;
+
+        pI.Enable();
+    }
+
+    private void OnDestroy()
+    {
+        pI.Dispose();
+    }
+
+    private void OnAttack(InputAction.CallbackContext context)
+    {
+        //メインカスタム
+        if (CPData.CustomNo1)
+        {
+            if (CPData.ArmShot_norml_Lv1)
+            {
+                // ノーマルの弾
+                ShotNolmal_Lv1();
+            }
+            if (CPData.ArmShot_norml_Lv2)
+            {
+                //ノーマルの弾レベル2
+                ShotNolmal_Lv2();
+            }
+        }
+        //サブカスタム
+        if (CPData.CustomNo2)
+        {
+            //  Debug.Log("aaaaaaaaaaaaaaaaaaa");
+            ShotPenetrationLv1();
+
+        }
+    }
+
+
     // Update is called once per frame
     void Update()
     {

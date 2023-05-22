@@ -24,8 +24,8 @@ public class player_move : MonoBehaviour
     private bool isWallRight;
 
     private PlayerInput playerInput;
+    private CP_move_input pI;
     private Vector2 moveInput;
-    private InputActionMap map;
 
     Vector2 scale;
 
@@ -47,15 +47,36 @@ public class player_move : MonoBehaviour
         isWallRight = false;
     }
 
+ 
     private void Awake()
     {
+
+        // Actionスクリプトのインスタンス生成
         playerInput = GetComponent<PlayerInput>();
+        pI = new CP_move_input();
+
+    // Actionイベントの登録
+        pI.Player.Jump.performed += OnJump;
+
+        pI.Enable();
+
     }
 
+    private void OnDestroy()
+    {
+        // 自身でインスタンス化したActionクラスはIDisposableを実装しているので、
+        // 必ずDisposeする必要がある...らしい
+        pI.Dispose();
+
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        isJump = true;
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
-        map = playerInput.currentActionMap;
 
         Jump();
         Move();
@@ -179,8 +200,6 @@ public class player_move : MonoBehaviour
 
 
 
-
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         //床に当たったらカウントゼロ
@@ -190,8 +209,6 @@ public class player_move : MonoBehaviour
         }
 
     }
-
-
 
     private void OnCollisionStay2D(Collision2D other)
     {
