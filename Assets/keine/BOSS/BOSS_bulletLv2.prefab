@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1130771552718808459}
   - component: {fileID: -2488819978373670830}
   - component: {fileID: 3460430742221071669}
-  - component: {fileID: -2654453079224101239}
+  - component: {fileID: 6812662964589298007}
   m_Layer: 0
   m_Name: BOSS_bulletLv2
   m_TagString: BOSS_Bullet2
@@ -134,7 +134,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-2654453079224101239
+--- !u!114 &6812662964589298007
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,9 +143,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 793993105401902671}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ee0be7ec5664f14eb0b54419c509444, type: 3}
+  m_Script: {fileID: 11500000, guid: 59b56688d4a8dff4e9a143bbe7a75f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Point: {fileID: 793993105401902671}
   eff: {fileID: 8667144780761891286, guid: b190a7b65a050e147a0a3e502a3caca4, type: 3}
-  Destroy_time: 0.5
+  Destroy_time: 1

@@ -89,7 +89,7 @@ public class Boss_custom_manager : MonoBehaviour
             {
                 if (weaponStopCount <= 10)
                 {
-                    if (weaponCount > 0.3f)
+                    if (weaponCount > 0.5f)
                     {
                         //ƒm[ƒ}ƒ‹‚Ì’eƒŒƒxƒ‹2
                         ShotNolmal_Lv1();
@@ -100,7 +100,7 @@ public class Boss_custom_manager : MonoBehaviour
                 }
                 if (weaponStopCount > 10)
                 {
-                    if (weaponCount > 0.3f)
+                    if (weaponCount > 0.5f)
                     {
                         //ƒm[ƒ}ƒ‹‚Ì’eƒŒƒxƒ‹2
                         ShotNolmal_Lv2();
@@ -118,7 +118,7 @@ public class Boss_custom_manager : MonoBehaviour
             if (LastResortCount >= 10)
             {
                 Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                CPData.LastResort = true;
+               // CPData.LastResort = true;
 
 
             }
