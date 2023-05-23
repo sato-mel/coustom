@@ -404,6 +404,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 10
+  R: 0
+  G: 0
+  B: 0
 --- !u!212 &173083395
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -483,6 +486,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd797cdb32c0de49b35e0ec841ac3fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  max: 0
+  speed: 0
 --- !u!1 &268302548
 GameObject:
   m_ObjectHideFlags: 0
@@ -2293,7 +2298,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1369938711
 GameObject:
@@ -3751,6 +3756,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3907853425470861044, guid: a5f0528975b52d0418924658116cac96, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.4
+      objectReference: {fileID: 0}
     - target: {fileID: 7701793467772126208, guid: a5f0528975b52d0418924658116cac96, type: 3}
       propertyPath: m_Name
       value: player

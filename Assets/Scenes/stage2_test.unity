@@ -157,8 +157,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   max: 3.5
   speed: 5
-  max2: 0
-  speed2: 0
 --- !u!61 &118742508
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -412,8 +410,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   max: 2
   speed: 1
-  max2: 0
-  speed2: 0
 --- !u!1 &268302548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,8 +1772,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   max: 2
   speed: 1
-  max2: 0
-  speed2: 0
 --- !u!61 &655016094
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3146,7 +3140,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1369938711
 GameObject:
@@ -8643,8 +8637,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   max: 2
   speed: 1
-  max2: 0
-  speed2: 0
 --- !u!61 &1466661460
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8788,8 +8780,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   max: 2
   speed: 1
-  max2: 0
-  speed2: 0
 --- !u!61 &1502811647
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8995,8 +8985,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   max: 2
   speed: 1
-  max2: 0
-  speed2: 0
 --- !u!61 &1952380770
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9244,6 +9232,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3907853425470861044, guid: a5f0528975b52d0418924658116cac96, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 80.7
+      objectReference: {fileID: 0}
     - target: {fileID: 7701793467772126208, guid: a5f0528975b52d0418924658116cac96, type: 3}
       propertyPath: m_Name
       value: player

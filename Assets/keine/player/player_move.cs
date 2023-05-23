@@ -24,7 +24,9 @@ public class player_move : MonoBehaviour
     private bool isWallRight;
     //
     private PlayerInput playerInput;
+    private CP_move_input pI;
     private Vector2 moveInput;
+
 
     Vector2 scale;
 
@@ -52,12 +54,27 @@ public class player_move : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+
+        pI = new CP_move_input();
+
+        pI.Player.Jump.performed += OnJump;
+
+        pI.Enable();
+    }
+
+    private void OnDestroy()
+    {
+        pI.Dispose();
+    }
+
+    private void OnJump(InputAction.CallbackContext context)
+    {
+        isJump = true;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
 
         Jump();
         Move();
@@ -67,10 +84,6 @@ public class player_move : MonoBehaviour
     private void Update()
     {
         // if (Gamepad.current == null) return;
-
-
-
-
 
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -87,10 +100,10 @@ public class player_move : MonoBehaviour
     void Move()
     {
 
-        //
+        // 
 
 
-        Vector2 moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
+        moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
         float horizontalInput = moveInput.x;
         // 左スティックの水平方向の入力を取得
         moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
@@ -150,9 +163,6 @@ public class player_move : MonoBehaviour
 
 
 
-
-
-
     }
 
     void Jump()
@@ -185,11 +195,7 @@ public class player_move : MonoBehaviour
 
             }
         }
-
     }
-
-
-
 
 
 
