@@ -14,6 +14,9 @@ public class enemy_hp : MonoBehaviour
     private int ShotNolmal_Lv2 = 10;
 
     // [SerializeField]
+    private int Bom = 5;
+
+    // [SerializeField]
     private int ShotPenetrationLv1 = 1;
 
     private SpriteRenderer col = null;
@@ -67,6 +70,11 @@ public class enemy_hp : MonoBehaviour
         {
             //壁を貫通した弾ならダメージアップするようにする
             HP -= ShotPenetrationLv1;
+        }
+        if (other.gameObject.tag == "Bom")
+        {
+            //壁を貫通した弾ならダメージアップするようにする
+            HP -= Bom;
         }
 
         if (other.gameObject.tag == "Bullet" || other.gameObject.tag == "Bullet2" ||

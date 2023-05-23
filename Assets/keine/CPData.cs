@@ -25,7 +25,7 @@ public class CPData : MonoBehaviour
     public static bool CustomHigh = false;
 
     public static bool BOSS_start = false;
-
+    public static bool BOSS_start2 = false;
 
     //ボスのスクリプトにて使用
     public static bool LastResort = false;

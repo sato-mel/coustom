@@ -22,9 +22,8 @@ public class player_move : MonoBehaviour
     private bool isLeft;
     private bool isWallLeft;
     private bool isWallRight;
-
+    //
     private PlayerInput playerInput;
-    private CP_move_input pI;
     private Vector2 moveInput;
 
     Vector2 scale;
@@ -45,38 +44,20 @@ public class player_move : MonoBehaviour
         isLeft = false;
         isWallLeft = false;
         isWallRight = false;
+
+
+
     }
 
- 
     private void Awake()
     {
-
-        // Actionスクリプトのインスタンス生成
         playerInput = GetComponent<PlayerInput>();
-        pI = new CP_move_input();
-
-    // Actionイベントの登録
-        pI.Player.Jump.performed += OnJump;
-
-        pI.Enable();
-
     }
 
-    private void OnDestroy()
-    {
-        // 自身でインスタンス化したActionクラスはIDisposableを実装しているので、
-        // 必ずDisposeする必要がある...らしい
-        pI.Dispose();
-
-    }
-
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        isJump = true;
-    }
     // Update is called once per frame
     void FixedUpdate()
     {
+
 
         Jump();
         Move();
@@ -85,10 +66,17 @@ public class player_move : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) ) 
+        // if (Gamepad.current == null) return;
+
+
+
+
+
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             isJump = true;
-           // CPData.Player_junpCount += 1;
+            // CPData.Player_junpCount += 1;
 
         }
 
@@ -99,12 +87,15 @@ public class player_move : MonoBehaviour
     void Move()
     {
 
-        moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
+        //
+
+
+        Vector2 moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
         float horizontalInput = moveInput.x;
         // 左スティックの水平方向の入力を取得
+        moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
+        horizontalInput = moveInput.x;
 
-
-        //Vector2 scale = gameObject.transform.localScale;
 
         //移動処理
         if (!isWallLeft)
@@ -200,6 +191,8 @@ public class player_move : MonoBehaviour
 
 
 
+
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         //床に当たったらカウントゼロ
@@ -209,6 +202,8 @@ public class player_move : MonoBehaviour
         }
 
     }
+
+
 
     private void OnCollisionStay2D(Collision2D other)
     {
