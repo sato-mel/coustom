@@ -12,7 +12,10 @@ TagManager:
   - RightWall
   - LeftWall
   - Penetration_Bullet
-  - Gulider
+  - BOSS_Bullet
+  - BOSS_Bullet2
+  - BOSS
+  - Bom
   layers:
   - Default
   - TransparentFX

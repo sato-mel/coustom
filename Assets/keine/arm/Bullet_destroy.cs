@@ -43,7 +43,7 @@ public class Bullet_destroy : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     { 
-        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "RightWall" || other.gameObject.tag == "LeftWall")
+        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "RightWall" || other.gameObject.tag == "LeftWall" || other.gameObject.tag == "BOSS")
         {
             Destroy(this.gameObject);
         }
