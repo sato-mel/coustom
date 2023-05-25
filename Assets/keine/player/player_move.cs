@@ -54,9 +54,11 @@ public class player_move : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-
         pI = new CP_move_input();
 
+        //pI.Player.Move.started += OnMove;
+        //pI.Player.Move.performed += OnMove;
+        //pI.Player.Move.canceled += OnMove;
         pI.Player.Jump.performed += OnJump;
 
         pI.Enable();
@@ -67,6 +69,11 @@ public class player_move : MonoBehaviour
         pI.Dispose();
     }
 
+    //private void OnMove(InputAction.CallbackContext context)
+    //{
+
+    //}
+
     private void OnJump(InputAction.CallbackContext context)
     {
         isJump = true;
@@ -76,14 +83,16 @@ public class player_move : MonoBehaviour
     void FixedUpdate()
     {
 
-        Jump();
-        Move();
 
+        Move();
+        Jump();
     }
 
     private void Update()
     {
-        // if (Gamepad.current == null) return;
+        
+        // 左スティックの水平方向の入力を取得
+        moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
 
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -100,22 +109,15 @@ public class player_move : MonoBehaviour
     void Move()
     {
 
-        // 
-
-
-        moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
         float horizontalInput = moveInput.x;
-        // 左スティックの水平方向の入力を取得
-        moveInput = playerInput.currentActionMap["Move"].ReadValue<Vector2>();
-        horizontalInput = moveInput.x;
-
+        
 
         //移動処理
         if (!isWallLeft)
         {
             if (Input.GetKey(KeyCode.A) || horizontalInput < 0)
             {
-                if (isRight)
+                 if (isRight)
                 {
                     hanten = -1;
                     isRight = false;
@@ -128,7 +130,7 @@ public class player_move : MonoBehaviour
                 scale.x *= hanten;
 
                 gameObject.transform.localScale = scale;
-                transform.Translate(-LeftMove * Time.deltaTime, 0.0f, 0.0f);
+                this.rb.AddForce(new Vector3(-LeftMove * Time.deltaTime, 0.0f ,0.0f));
                 isWallRight = false;
                 CPData.Right = false;
             }
@@ -151,7 +153,7 @@ public class player_move : MonoBehaviour
                 scale.x *= hanten;
 
                 gameObject.transform.localScale = scale;
-                transform.Translate(RightMove * Time.deltaTime, 0.0f, 0.0f);
+                this.rb.AddForce(new Vector3(RightMove * Time.deltaTime, 0.0f, 0.0f));
 
                 isRight = true;
                 isWallLeft = false;
