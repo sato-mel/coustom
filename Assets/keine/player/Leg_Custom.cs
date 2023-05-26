@@ -32,7 +32,7 @@ public class Leg_Custom : MonoBehaviour
     private bool PreBody = false; // BodyCustomを使用する予約
     private bool isBody = false; // BodyCustomを使ったか
     private int BodyCount = 0; // BodyCustomを使った回数（着地リセット）
-    private float BodyTime = 0; // BodyCustomを使った時間（着地リセット）
+    private int BodyTime = 0; // BodyCustomを使った時間（着地リセット）
 
     private float BodyMoveVelLimit; // BodyCustom使用中の移動速度制限
     private float BodyFixedMoveVel; // BodyCustom使用中の強制移動速度。滑空用。
@@ -87,26 +87,26 @@ public class Leg_Custom : MonoBehaviour
     // 滑空
     float[] BodyCustom0_BML = { 1.0f, 1.0f, 2.0f, 3.0f }; // 移動速度、BodyMoveVelLimitに入れる値の配列
     float[] BodyCustom0_BFM = { 15.0f, 15.0f, 16.0f, 17.0f }; // 固定移動速度、BodyFixedMoveVelに入れる値の配列
-    float[] BodyCustom0_BG = { 5.0f, 4.5f, 4.5f, 4.0f }; // 重力、BodyGravityに入れる値の配列
+    float[] BodyCustom0_BG = { 4.0f, 3.5f, 3.5f, 3.0f }; // 重力、BodyGravityに入れる値の配列
     int[] BodyCustom0_BAF = { 10, 10, 10, 10 }; // 滑りやすさ、抵抗、BodyAccelFrameに入れる値の配列
     int[] BodyCustom0_BCL = { 1, 2, 3, 4 }; // 回数制限、BodyCountLimitに入れる配列
-    int[] BodyCustom0_BTL = { 60, 60, 60, 60 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
+    int[] BodyCustom0_BTL = { 50, 100, 150, 200 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
 
     // 傘
     float[] BodyCustom1_BML = { 15.0f, 16.0f, 16.0f, 17.0f }; // 移動速度、BodyMoveVelLimitに入れる値の配列
     float[] BodyCustom1_BFM = { 0.0f, 0.0f, 0.0f, 0.0f }; // 固定移動速度、BodyFixedMoveVelに入れる値の配列
-    float[] BodyCustom1_BG = { 2.0f, 2.0f, 1.5f, 1.5f }; // 重力、BodyGravityに入れる値の配列
+    float[] BodyCustom1_BG = { 1.5f, 1.5f, 1.0f, 1.0f }; // 重力、BodyGravityに入れる値の配列
     int[] BodyCustom1_BAF = { 35, 30, 30, 25 }; // 滑りやすさ、抵抗、AccelFrameに入れる値の配列
     int[] BodyCustom1_BCL = { 2, 3, 4, 5 }; // 回数制限、BodyCountLimitに入れる配列
-    int[] BodyCustom1_BTL = { 60, 60, 60, 60 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
+    int[] BodyCustom1_BTL = { 100, 150, 200, 250 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
 
     // ホバリング
     float[] BodyCustom2_BML = { 5.0f, 5.0f, 5.0f, 5.0f }; // 移動速度、BodyMoveVelLimitに入れる値の配列
     float[] BodyCustom2_BFM = { 0.0f, 0.0f, 0.0f, 0.0f }; // 固定移動速度、BodyFixedMoveVelに入れる値の配列
-    float[] BodyCustom2_BG = { 0.0f, 0.0f, -5.0f, -10.0f }; // 重力、BodyGravityに入れる値の配列
+    float[] BodyCustom2_BG = { 0.0f, 0.0f, -2.0f, -4.0f }; // 重力、BodyGravityに入れる値の配列
     int[] BodyCustom2_BAF = { 25, 25, 25, 25 }; // 滑りやすさ、抵抗、BodyAccelFrameに入れる値の配列
     int[] BodyCustom2_BCL = { 3, 4, 5, 6 }; // 回数制限、BodyCountLimitに入れる配列
-    int[] BodyCustom2_BTL = { 60, 60, 60, 60 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
+    int[] BodyCustom2_BTL = { 50, 75, 100, 125 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
 
 
     // Start is called before the first frame update
@@ -183,15 +183,10 @@ public class Leg_Custom : MonoBehaviour
             {
                 if (isRight)
                 {
-                    hanten = -1;
                     isRight = false;
                     isLeft = true;
                 }
-                else
-                {
-                    hanten = 1;
-                }
-                scale.x *= hanten;
+
                 if (isBody)
                 {
                     if (MoveVel > -BodyMoveVelLimit)
@@ -209,23 +204,37 @@ public class Leg_Custom : MonoBehaviour
                     {
                         MoveVel -= MoveVelLimit / AccelFrame;
                     }
-                    else
+
+                    // プレイヤー画像の反転
+                    if (scale.x > 0)
                     {
-                        MoveVel = -MoveVelLimit;
+                        scale.x *= -1;
                     }
                 }
+
                 gameObject.transform.localScale = scale;
                 isWallRight = false;
                 CPData.Right = false;
             }
-            else
+            else // 左を押していない時
             {
                 if (MoveVel < 0)
                 {
-                    MoveVel += MoveVelLimit / AccelFrame;
+                    MoveVel += MoveVelLimit / AccelFrame; // 減速
                     if (MoveVel > 0)
                     {
                         MoveVel = 0;
+                    }
+                }
+            }
+            if (isBody == false)
+            {
+                if (MoveVel < -MoveVelLimit) // 上限より速いとき
+                {
+                    MoveVel += MoveVelLimit / AccelFrame; // 減速
+                    if (MoveVel > -MoveVelLimit) // 上限より遅くなった時
+                    {
+                        MoveVel = -MoveVelLimit;
                     }
                 }
             }
@@ -236,16 +245,9 @@ public class Leg_Custom : MonoBehaviour
             {
                 if (isLeft)
                 {
-                    hanten = -1;
                     isRight = true;
                     isLeft = false;
                 }
-                else
-                {
-                    hanten = 1;
-                }
-
-                scale.x *= hanten;
 
                 if (isBody)
                 {
@@ -264,29 +266,36 @@ public class Leg_Custom : MonoBehaviour
                     {
                         MoveVel += MoveVelLimit / AccelFrame;
                     }
-                    else
+
+                    // プレイヤー画像の反転
+                    if (scale.x < 0)
                     {
-                        MoveVel = MoveVelLimit;
+                        scale.x *= -1;
                     }
                 }
-                if (MoveVel < MoveVelLimit)
-                {
-                    MoveVel += MoveVelLimit / AccelFrame;
-                }
-                //                transform.Translate(MoveVel * Time.deltaTime, 0.0f, 0.0f);
                 gameObject.transform.localScale = scale;
-                isRight = true;
                 isWallLeft = false;
                 CPData.Right = true;
             }
-            else
+            else // 右を押していない時
             {
                 if (MoveVel > 0)
                 {
-                    MoveVel -= MoveVelLimit / AccelFrame;
+                    MoveVel -= MoveVelLimit / AccelFrame; // 減速
                     if (MoveVel < 0)
                     {
                         MoveVel = 0;
+                    }
+                }
+            }
+            if (isBody == false)
+            {
+                if (MoveVel > MoveVelLimit) // 上限より速いとき
+                {
+                    MoveVel -= MoveVelLimit / AccelFrame; // 減速
+                    if (MoveVel < MoveVelLimit) // 上限より遅くなった時
+                    {
+                        MoveVel = MoveVelLimit;
                     }
                 }
             }
@@ -356,11 +365,33 @@ public class Leg_Custom : MonoBehaviour
             JumpInitVel = 0;
             JumpVel = 0;
             BodyCount++;
-            if (MoveVel >= 0)
+            if (MoveVel > 0)
             {
                 if (BodyFixedMoveVel < 0)
                 {
                     BodyFixedMoveVel *= -1;
+                }
+                // プレイヤー画像の反転
+                if (scale.x < 0)
+                {
+                    scale.x *= -1;
+                }
+            }
+            if (MoveVel == 0)
+            {
+                if (scale.x > 0)
+                {
+                    if (BodyFixedMoveVel < 0)
+                    {
+                        BodyFixedMoveVel *= -1;
+                    }
+                }
+                else
+                {
+                    if (BodyFixedMoveVel > 0)
+                    {
+                        BodyFixedMoveVel *= -1;
+                    }
                 }
             }
             if (MoveVel < 0)
@@ -368,6 +399,11 @@ public class Leg_Custom : MonoBehaviour
                 if (BodyFixedMoveVel > 0)
                 {
                     BodyFixedMoveVel *= -1;
+                }
+                // プレイヤー画像の反転
+                if (scale.x > 0)
+                {
+                    scale.x *= -1;
                 }
             }
         }
@@ -377,11 +413,16 @@ public class Leg_Custom : MonoBehaviour
             isBody = false;
             JumpTime = 0;
             JumpInitVel = JumpVel;
+            MoveVel = MoveVel + BodyFixedMoveVel;
         }
         if (isBody)
         {
             transform.Translate(0.0f, -BodyGravity * Time.deltaTime, 0.0f);
-            BodyTime += 0.02f; // FixedUpdateの更新時間は0.02秒。
+            BodyTime++; // FixedUpdateの更新時間は0.02秒。
+            if (BodyTime >= BodyTimeLimit)
+            {
+                PreCancelBody = true;
+            }
         }
     }
 
@@ -631,8 +672,11 @@ public class Leg_Custom : MonoBehaviour
             JumpInitVel = 0;
             JumpTime = 0;
 
-            PreCancelBody = true;
-            isBody = false;
+            if (isBody)
+            {
+                PreCancelBody = true;
+                isBody = false;
+            }
             BodyCount = 0;
             BodyTime = 0;
         }
@@ -676,6 +720,16 @@ public class Leg_Custom : MonoBehaviour
                 JumpInitVel = 0;
                 JumpCount = 1;
             }
+        }
+
+        // 壁から離れたらfalse
+        if (other.gameObject.tag == "RightWall")
+        {
+            isWallRight = false;
+        }
+        if (other.gameObject.tag == "LeftWall")
+        {
+            isWallLeft = false;
         }
 
     }
