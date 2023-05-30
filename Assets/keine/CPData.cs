@@ -30,4 +30,7 @@ public class CPData : MonoBehaviour
     //ボスのスクリプトにて使用
     public static bool LastResort = false;
 
+    // BodyCustom、LegCustom用
+    public static bool BodyLegCustom_LvUp = false;
+
 }

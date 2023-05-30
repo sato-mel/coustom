@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class Leg_Custom : MonoBehaviour
@@ -59,7 +60,7 @@ public class Leg_Custom : MonoBehaviour
     private bool isWallRight;
 
     Vector2 scale;
-    
+
     // 多段ジャンプ
     float[] LegCustom0_MVL = { 10.0f, 10.0f, 10.0f, 10.0f }; // 移動速度、LegCustom0のMoveVelLimitに入れる値の配列
     float[] LegCustom0_JP = { 10.0f, 10.0f, 10.0f, 10.0f }; // ジャンプ初速度、LegCustom0のJumpPowerに入れる値の配列
@@ -90,7 +91,7 @@ public class Leg_Custom : MonoBehaviour
     float[] BodyCustom0_BG = { 4.0f, 3.5f, 3.5f, 3.0f }; // 重力、BodyGravityに入れる値の配列
     int[] BodyCustom0_BAF = { 10, 10, 10, 10 }; // 滑りやすさ、抵抗、BodyAccelFrameに入れる値の配列
     int[] BodyCustom0_BCL = { 1, 2, 3, 4 }; // 回数制限、BodyCountLimitに入れる配列
-    int[] BodyCustom0_BTL = { 50, 100, 150, 200 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
+    int[] BodyCustom0_BTL = { 50, 75, 100, 125 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
 
     // 傘
     float[] BodyCustom1_BML = { 15.0f, 16.0f, 16.0f, 17.0f }; // 移動速度、BodyMoveVelLimitに入れる値の配列
@@ -98,7 +99,7 @@ public class Leg_Custom : MonoBehaviour
     float[] BodyCustom1_BG = { 1.5f, 1.5f, 1.0f, 1.0f }; // 重力、BodyGravityに入れる値の配列
     int[] BodyCustom1_BAF = { 35, 30, 30, 25 }; // 滑りやすさ、抵抗、AccelFrameに入れる値の配列
     int[] BodyCustom1_BCL = { 2, 3, 4, 5 }; // 回数制限、BodyCountLimitに入れる配列
-    int[] BodyCustom1_BTL = { 100, 150, 200, 250 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
+    int[] BodyCustom1_BTL = { 50, 100, 150, 200 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
 
     // ホバリング
     float[] BodyCustom2_BML = { 5.0f, 5.0f, 5.0f, 5.0f }; // 移動速度、BodyMoveVelLimitに入れる値の配列
@@ -106,8 +107,13 @@ public class Leg_Custom : MonoBehaviour
     float[] BodyCustom2_BG = { 0.0f, 0.0f, -2.0f, -4.0f }; // 重力、BodyGravityに入れる値の配列
     int[] BodyCustom2_BAF = { 25, 25, 25, 25 }; // 滑りやすさ、抵抗、BodyAccelFrameに入れる値の配列
     int[] BodyCustom2_BCL = { 3, 4, 5, 6 }; // 回数制限、BodyCountLimitに入れる配列
-    int[] BodyCustom2_BTL = { 50, 75, 100, 125 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
+    int[] BodyCustom2_BTL = { 25, 50, 75, 100 }; // 時間制限(フレーム)、BodyTimeLimitに入れる配列
 
+    // 経験値
+    int EnemyPointGet = 1; // 敵1体を倒した経験値
+    int[] EnemyPointBody = { 0, 0, 0 }; // BodyCustomごとの累計経験値
+    int[] EnemyPointLeg = { 0, 0, 0 }; // LegCustomごとの累計経験値
+    int[] LvUpTable = { 1, 2, 3 }; // LvUpに必要な経験値
 
     // Start is called before the first frame update
     void Start()
@@ -116,6 +122,7 @@ public class Leg_Custom : MonoBehaviour
         JumpCount = 0;
         hanten = 1;
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
 
         scale = transform.localScale;
 
@@ -147,9 +154,19 @@ public class Leg_Custom : MonoBehaviour
 
     private void Update()
     {
+        BodyLegCustomLvUp(); // レベルアップ用
+
         LegCustom(); // デバッグ用。手動レベル・カスタム切り替え
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        // ゲームパッド用
+        var GamePad = Gamepad.current;
+        if (GamePad == null)
+        {
+            Debug.Log("ゲームパッドがありません。");
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) || GamePad.aButton.wasPressedThisFrame) // 押した時
         {
             if (JumpCount < JumpLimit)
             {
@@ -164,11 +181,11 @@ public class Leg_Custom : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyUp(KeyCode.Space)) // 離した時
+        if (Input.GetKeyUp(KeyCode.Space) || GamePad.aButton.wasReleasedThisFrame) // 離した時
         {
             if (isBody)
             {
-//                Debug.Log("離した");
+                //                Debug.Log("離した");
                 PreCancelBody = true;
             }
         }
@@ -176,10 +193,21 @@ public class Leg_Custom : MonoBehaviour
 
     void Move()
     {
+        // ゲームパッド用
+        var GamePad = Gamepad.current;
+        if (GamePad == null)
+        {
+            Debug.Log("ゲームパッドがありません。");
+            return;
+        }
+        var LeftStickValue = GamePad.leftStick.ReadValue();
+
+        float StickReaction = 0.2f;
+
         //移動処理
         if (!isWallLeft)
         {
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A) || LeftStickValue.x < -StickReaction)
             {
                 if (isRight)
                 {
@@ -241,7 +269,7 @@ public class Leg_Custom : MonoBehaviour
         }
         if (!isWallRight)
         {
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D) || LeftStickValue.x > StickReaction)
             {
                 if (isLeft)
                 {
@@ -314,6 +342,14 @@ public class Leg_Custom : MonoBehaviour
 
     void Jump()
     {
+        // ゲームパッド用
+        var GamePad = Gamepad.current;
+        if (GamePad == null)
+        {
+            Debug.Log("ゲームパッドがありません。");
+            return;
+        }
+
         if (PreJump) // ジャンプする処理
         {
             JumpCount++;
@@ -338,9 +374,9 @@ public class Leg_Custom : MonoBehaviour
                 {
                     if (LastJumpVel > 0)
                     {
-                        if (Input.GetKey(KeyCode.Space))
+                        if (Input.GetKey(KeyCode.Space) || GamePad.aButton.isPressed)
                         {
-//                            Debug.Log("頂点");
+                            //                            Debug.Log("頂点");
                             PreBody = true;
                             return;
                         }
@@ -424,6 +460,69 @@ public class Leg_Custom : MonoBehaviour
                 PreCancelBody = true;
             }
         }
+    }
+
+    private void BodyLegCustomLvUp()
+    {
+        if (CPData.BodyLegCustom_LvUp)
+        {
+            CPData.BodyLegCustom_LvUp = false;
+        }
+        else
+        {
+            return;
+        }
+
+        // BodyCustomに経験値を追加
+        EnemyPointBody[BodyCustomCurrent] += EnemyPointGet;
+        // LegCustomに経験値を追加
+        EnemyPointLeg[LegCustomCurrent] += EnemyPointGet;
+
+        // LvUp判定
+        bool LvUp = true; // 継続判定
+
+        do
+        {
+            if (BodyCustomLv[BodyCustomCurrent] < BodyCustomMaxLv)
+            {
+                if (LvUpTable[BodyCustomLv[BodyCustomCurrent] - 1] <= EnemyPointBody[BodyCustomCurrent])
+                {
+                    BodyCustomLv[BodyCustomCurrent]++;
+                    InputBody(); // カスタム・レベルによる能力を反映する
+                }
+                else
+                {
+                    LvUp = false;
+                }
+            }
+            else
+            {
+                LvUp = false;
+            }
+        } while (LvUp);
+
+        // LvUp判定
+        LvUp = true; // 継続判定
+
+        do
+        {
+            if (LegCustomLv[LegCustomCurrent] < LegCustomMaxLv)
+            {
+                if (LvUpTable[LegCustomLv[LegCustomCurrent] - 1] <= EnemyPointLeg[LegCustomCurrent])
+                {
+                    LegCustomLv[LegCustomCurrent]++;
+                    InputLeg(); // カスタム・レベルによる能力を反映する
+                }
+                else
+                {
+                    LvUp = false;
+                }
+            }
+            else
+            {
+                LvUp = false;
+            }
+        } while (LvUp);
     }
 
     private void InputLeg() // カスタム・レベルによる能力を反映する
