@@ -17,7 +17,7 @@ public class title : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            FadeManager.Instance.LoadScene("stage1", 1.0f);
+            FadeManager.Instance.LoadScene("stage2_test", 1.0f);
             //SceneManager.LoadScene("stage1");    
         }
     }

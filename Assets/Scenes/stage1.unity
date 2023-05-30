@@ -1477,6 +1477,24 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0000039860165, y: 0.19967003}
   m_Size: {x: 3.8539774, y: 6.120661}
   m_Direction: 0
+--- !u!114 &843949284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843949268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a51c5b484f7ea148aabedaf334d82be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveVelLimit: 0
+  JumpPower: 0
+  Gravity: 0
+  JumpLimit: 0
+  FallVelLimit: 0
+  AccelFrame: 0
 --- !u!1 &904936545 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4769954942873157290, guid: cc731d4707f752f4db51eefb69ea6ff8, type: 3}
@@ -7261,4 +7279,5 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7701793467772126217, guid: a5f0528975b52d0418924658116cac96, type: 3}
+    - {fileID: 7701793467772126211, guid: a5f0528975b52d0418924658116cac96, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a5f0528975b52d0418924658116cac96, type: 3}
