@@ -65,6 +65,8 @@ public class Boss_enemy_hp2 : MonoBehaviour
         {
             //武器のレベルアップポイント
             CPData.ArmShot_norml_Lv += 1;
+            // BodyLegCustomのレベルアップ
+            CPData.BodyLegCustom_LvUp = true;
             SceneManager.LoadScene(next_stage);
             // Destroy(this.gameObject);
         }

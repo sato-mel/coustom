@@ -48,6 +48,8 @@ public class enemy_hp : MonoBehaviour
         {
             //武器のレベルアップポイント
             CPData.ArmShot_norml_Lv += 1;
+            // BodyLegCustomのレベルアップ
+            CPData.BodyLegCustom_LvUp = true;
             Destroy(this.gameObject);
         }
 
@@ -61,6 +63,9 @@ public class enemy_hp : MonoBehaviour
         if (other.gameObject.tag == "Bullet")
         {
             HP -= ShotNolmal_Lv1;
+            // BodyLegCustomのレベルアップ
+            CPData.BodyLegCustom_LvUp = true;
+            Destroy(this.gameObject);
         }
         if (other.gameObject.tag == "Bullet2")
         {
