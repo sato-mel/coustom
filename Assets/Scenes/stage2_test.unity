@@ -9163,6 +9163,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2157759163061956436, guid: 53c16e7b4c933a4468fdc3232fbece7b, type: 3}
+      propertyPath: m_Size.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157759163061956436, guid: 53c16e7b4c933a4468fdc3232fbece7b, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157759163513797520, guid: 53c16e7b4c933a4468fdc3232fbece7b, type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2157759163513797532, guid: 53c16e7b4c933a4468fdc3232fbece7b, type: 3}
       propertyPath: m_Name
       value: player
@@ -9233,11 +9245,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4695241346696728936, guid: 53c16e7b4c933a4468fdc3232fbece7b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 213.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4695241346696728936, guid: 53c16e7b4c933a4468fdc3232fbece7b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4.01
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 4695241346696728936, guid: 53c16e7b4c933a4468fdc3232fbece7b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
