@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class Leg_Custom : MonoBehaviour
@@ -114,13 +115,14 @@ public class Leg_Custom : MonoBehaviour
     int[] EnemyPointLeg = { 0, 0, 0 }; // LegCustomごとの累計経験値
     int[] LvUpTable = { 1, 2, 3 }; // LvUpに必要な経験値
 
-    // Start is called before the first frame update
-    void Start()
+// Start is called before the first frame update
+void Start()
     {
         LegCustomCurrent = 0;
         JumpCount = 0;
         hanten = 1;
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
 
         scale = transform.localScale;
 
@@ -156,7 +158,15 @@ public class Leg_Custom : MonoBehaviour
 
         LegCustom(); // デバッグ用。手動レベル・カスタム切り替え
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        // ゲームパッド用
+        var GamePad = Gamepad.current;
+        if (GamePad == null)
+        {
+            Debug.Log("ゲームパッドがありません。");
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) || GamePad.aButton.wasPressedThisFrame) // 押した時
         {
             if (JumpCount < JumpLimit)
             {
@@ -171,7 +181,7 @@ public class Leg_Custom : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyUp(KeyCode.Space)) // 離した時
+        if (Input.GetKeyUp(KeyCode.Space) || GamePad.aButton.wasReleasedThisFrame) // 離した時
         {
             if (isBody)
             {
@@ -183,10 +193,21 @@ public class Leg_Custom : MonoBehaviour
 
     void Move()
     {
+        // ゲームパッド用
+        var GamePad = Gamepad.current;
+        if (GamePad == null)
+        {
+            Debug.Log("ゲームパッドがありません。");
+            return;
+        }
+        var LeftStickValue = GamePad.leftStick.ReadValue();
+
+        float StickReaction = 0.2f;
+
         //移動処理
         if (!isWallLeft)
         {
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A) || LeftStickValue.x < -StickReaction)
             {
                 if (isRight)
                 {
@@ -248,7 +269,7 @@ public class Leg_Custom : MonoBehaviour
         }
         if (!isWallRight)
         {
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D) || LeftStickValue.x > StickReaction)
             {
                 if (isLeft)
                 {
@@ -321,6 +342,14 @@ public class Leg_Custom : MonoBehaviour
 
     void Jump()
     {
+        // ゲームパッド用
+        var GamePad = Gamepad.current;
+        if (GamePad == null)
+        {
+            Debug.Log("ゲームパッドがありません。");
+            return;
+        }
+
         if (PreJump) // ジャンプする処理
         {
             JumpCount++;
@@ -345,7 +374,7 @@ public class Leg_Custom : MonoBehaviour
                 {
                     if (LastJumpVel > 0)
                     {
-                        if (Input.GetKey(KeyCode.Space))
+                        if (Input.GetKey(KeyCode.Space) || GamePad.aButton.isPressed)
                         {
 //                            Debug.Log("頂点");
                             PreBody = true;

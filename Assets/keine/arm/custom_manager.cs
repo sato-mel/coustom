@@ -1,3 +1,4 @@
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class custom_manager : MonoBehaviour
@@ -61,14 +62,16 @@ public class custom_manager : MonoBehaviour
 
         BulletLv();
 
-
-
-
-
-
+        // ゲームパッド用
+        var GamePad = Gamepad.current;
+        if (GamePad == null)
+        {
+            Debug.Log("ゲームパッドがありません。");
+            return;
+        }
 
         //発射ボタン
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G) || GamePad.bButton.wasPressedThisFrame)
         {
             //メインカスタム
             if (CPData.CustomNo1)
