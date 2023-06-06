@@ -64,14 +64,23 @@ public class custom_manager : MonoBehaviour
 
         // ゲームパッド用
         var GamePad = Gamepad.current;
-        if (GamePad == null)
+        bool bButtonDown = false;
+        bool bButton = false;
+
+        if (GamePad != null)
         {
-            Debug.Log("ゲームパッドがありません。");
-            return;
+            if (GamePad.bButton.wasPressedThisFrame) // bボタンを押した時
+            {
+                bButtonDown = true;
+            }
+            if (GamePad.bButton.isPressed) // bボタンを押している間
+            {
+                bButton = true;
+            }
         }
 
         //発射ボタン
-        if (Input.GetKeyDown(KeyCode.G) || GamePad.bButton.wasPressedThisFrame)
+        if (Input.GetKeyDown(KeyCode.G) || bButtonDown)
         {
             //メインカスタム
             if (CPData.CustomNo1)
@@ -87,7 +96,7 @@ public class custom_manager : MonoBehaviour
                     ShotNolmal_Lv2();
                 }
             }
-            if (Input.GetKey(KeyCode.G))
+            if (Input.GetKey(KeyCode.G) || bButton)
             {
                 if (CPData.ArmShot_norml_Lv3)
                 {
@@ -123,6 +132,23 @@ public class custom_manager : MonoBehaviour
 
     private void BulletLv()
     {
+        // ゲームパッド用
+        var GamePad = Gamepad.current;
+        bool yButtonDown = false;
+        bool xButtonDown = false;
+
+        if (GamePad != null)
+        {
+            if (GamePad.bButton.isPressed) // yボタンを押した時
+            {
+                yButtonDown = true;
+            }
+            if (GamePad.bButton.isPressed) // xボタンを押した時
+            {
+                xButtonDown = true;
+            }
+        }
+
         //レベルアップ
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -137,14 +163,14 @@ public class custom_manager : MonoBehaviour
             CPData.ArmShot_norml_Lv -= 1;
         }
         //メインウェポン
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F1) || yButtonDown)
         {
             Custom_false();
             CPData.CustomNo1 = true;
             // Debug.Log("メインウェポンに変わった");
         }
         //サブウェポン
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (Input.GetKeyDown(KeyCode.F2) || xButtonDown)
         {
             Custom_false();
             CPData.CustomNo2 = true;

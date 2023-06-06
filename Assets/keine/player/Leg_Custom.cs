@@ -156,6 +156,8 @@ public class Leg_Custom : MonoBehaviour
     {
         BodyLegCustomLvUp(); // レベルアップ用
 
+        BodyLegCustomChange(); // 切り替え用
+
         LegCustom(); // デバッグ用。手動レベル・カスタム切り替え
 
         // ゲームパッド用
@@ -165,11 +167,11 @@ public class Leg_Custom : MonoBehaviour
 
         if (GamePad != null)
         {
-            if (GamePad.aButton.wasPressedThisFrame)
+            if (GamePad.aButton.wasPressedThisFrame) // Aボタンを押した時
             {
                 aButtonDown = true;
             }
-            if (GamePad.aButton.wasReleasedThisFrame)
+            if (GamePad.aButton.wasReleasedThisFrame) // Aボタンを離した時
             {
                 aButtonUp = true;
             }
@@ -395,7 +397,7 @@ public class Leg_Custom : MonoBehaviour
                 {
                     if (LastJumpVel > 0)
                     {
-                        if (Input.GetKey(KeyCode.Space) || aButton)
+                        if (Input.GetKey(KeyCode.Space) || aButton) // Aボタンを押している間
                         {
                             PreBody = true;
                             return;
@@ -544,6 +546,38 @@ public class Leg_Custom : MonoBehaviour
             }
         } while (LvUp);
     }
+
+    private void BodyLegCustomChange()
+    {
+        // ゲームパッド用
+        var GamePad = Gamepad.current;
+        bool R1ButtonDown = false; // R1ボタンを押した時
+        bool L1ButtonDown = false; // L1ボタンを押した時
+
+        if (GamePad != null)
+        {
+            if (GamePad.rightShoulder.wasPressedThisFrame) // R1ボタンを押した時
+            {
+                R1ButtonDown = true;
+            }
+            if (GamePad.leftShoulder.wasPressedThisFrame) // L1ボタンを押した時
+            {
+                L1ButtonDown = true;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) || R1ButtonDown) // 押した時
+        {
+            // BodyCustom切り替え
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q) || L1ButtonDown) // 押した時
+        {
+            // LegCustom切り替え
+        }
+    }
+
+
 
     private void InputLeg() // カスタム・レベルによる能力を反映する
     {
