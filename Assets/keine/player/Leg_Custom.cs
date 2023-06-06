@@ -160,13 +160,22 @@ public class Leg_Custom : MonoBehaviour
 
         // ゲームパッド用
         var GamePad = Gamepad.current;
-        if (GamePad == null)
+        bool aButtonDown = false; // Aボタンを押した時
+        bool aButtonUp = false; // Aボタンを離した時
+
+        if (GamePad != null)
         {
-            Debug.Log("ゲームパッドがありません。");
-            return;
+            if (GamePad.aButton.wasPressedThisFrame)
+            {
+                aButtonDown = true;
+            }
+            if (GamePad.aButton.wasReleasedThisFrame)
+            {
+                aButtonUp = true;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) || GamePad.aButton.wasPressedThisFrame) // 押した時
+        if (Input.GetKeyDown(KeyCode.Space) || aButtonDown) // 押した時
         {
             if (JumpCount < JumpLimit)
             {
@@ -181,11 +190,10 @@ public class Leg_Custom : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyUp(KeyCode.Space) || GamePad.aButton.wasReleasedThisFrame) // 離した時
+        if (Input.GetKeyUp(KeyCode.Space) || aButtonUp) // 離した時
         {
             if (isBody)
             {
-                //                Debug.Log("離した");
                 PreCancelBody = true;
             }
         }
@@ -195,19 +203,28 @@ public class Leg_Custom : MonoBehaviour
     {
         // ゲームパッド用
         var GamePad = Gamepad.current;
-        if (GamePad == null)
+        bool LeftStickLeft = false; // 左（左スティック）
+        bool LeftStickRight = false; // 右（左スティック）
+
+        if (GamePad != null)
         {
-            Debug.Log("ゲームパッドがありません。");
-            return;
+            var LeftStickValue = GamePad.leftStick.ReadValue();
+            float StickReaction = 0.2f; // スティックを一番傾けた時を1として、どれくらい傾けたら反応するか
+
+            if (LeftStickValue.x < -StickReaction)
+            {
+                LeftStickLeft = true;
+            }
+            if (LeftStickValue.x > StickReaction)
+            {
+                LeftStickRight = true;
+            }
         }
-        var LeftStickValue = GamePad.leftStick.ReadValue();
-
-        float StickReaction = 0.2f;
-
+        
         //移動処理
         if (!isWallLeft)
         {
-            if (Input.GetKey(KeyCode.A) || LeftStickValue.x < -StickReaction)
+            if (Input.GetKey(KeyCode.A) || LeftStickLeft)
             {
                 if (isRight)
                 {
@@ -234,7 +251,7 @@ public class Leg_Custom : MonoBehaviour
                     }
 
                     // プレイヤー画像の反転
-                    if (scale.x > 0)
+                    if (scale.x < 0)
                     {
                         scale.x *= -1;
                     }
@@ -269,7 +286,7 @@ public class Leg_Custom : MonoBehaviour
         }
         if (!isWallRight)
         {
-            if (Input.GetKey(KeyCode.D) || LeftStickValue.x > StickReaction)
+            if (Input.GetKey(KeyCode.D) || LeftStickRight)
             {
                 if (isLeft)
                 {
@@ -296,7 +313,7 @@ public class Leg_Custom : MonoBehaviour
                     }
 
                     // プレイヤー画像の反転
-                    if (scale.x < 0)
+                    if (scale.x > 0)
                     {
                         scale.x *= -1;
                     }
@@ -344,10 +361,14 @@ public class Leg_Custom : MonoBehaviour
     {
         // ゲームパッド用
         var GamePad = Gamepad.current;
-        if (GamePad == null)
+        bool aButton = false; // Aボタンを押している間
+
+        if (GamePad != null)
         {
-            Debug.Log("ゲームパッドがありません。");
-            return;
+            if (GamePad.aButton.isPressed)
+            {
+                aButton = true;
+            }
         }
 
         if (PreJump) // ジャンプする処理
@@ -374,9 +395,8 @@ public class Leg_Custom : MonoBehaviour
                 {
                     if (LastJumpVel > 0)
                     {
-                        if (Input.GetKey(KeyCode.Space) || GamePad.aButton.isPressed)
+                        if (Input.GetKey(KeyCode.Space) || aButton)
                         {
-                            //                            Debug.Log("頂点");
                             PreBody = true;
                             return;
                         }
@@ -408,14 +428,14 @@ public class Leg_Custom : MonoBehaviour
                     BodyFixedMoveVel *= -1;
                 }
                 // プレイヤー画像の反転
-                if (scale.x < 0)
+                if (scale.x > 0)
                 {
                     scale.x *= -1;
                 }
             }
             if (MoveVel == 0)
             {
-                if (scale.x > 0)
+                if (scale.x < 0)
                 {
                     if (BodyFixedMoveVel < 0)
                     {
@@ -437,7 +457,7 @@ public class Leg_Custom : MonoBehaviour
                     BodyFixedMoveVel *= -1;
                 }
                 // プレイヤー画像の反転
-                if (scale.x > 0)
+                if (scale.x < 0)
                 {
                     scale.x *= -1;
                 }
