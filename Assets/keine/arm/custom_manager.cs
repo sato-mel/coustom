@@ -139,11 +139,11 @@ public class custom_manager : MonoBehaviour
 
         if (GamePad != null)
         {
-            if (GamePad.bButton.isPressed) // yボタンを押した時
+            if (GamePad.yButton.isPressed) // yボタンを押した時
             {
                 yButtonDown = true;
             }
-            if (GamePad.bButton.isPressed) // xボタンを押した時
+            if (GamePad.xButton.isPressed) // xボタンを押した時
             {
                 xButtonDown = true;
             }
@@ -167,14 +167,14 @@ public class custom_manager : MonoBehaviour
         {
             Custom_false();
             CPData.CustomNo1 = true;
-            // Debug.Log("メインウェポンに変わった");
+             Debug.Log("メインウェポンに変わった");
         }
         //サブウェポン
         if (Input.GetKeyDown(KeyCode.F2) || xButtonDown)
         {
             Custom_false();
             CPData.CustomNo2 = true;
-            // Debug.Log("サブウェポンに変わった");
+             Debug.Log("サブウェポンに変わった");
         }
 
 
