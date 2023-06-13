@@ -390,6 +390,11 @@ public class Leg_Custom : MonoBehaviour
 
             JumpVel = JumpInitVel - Gravity * JumpTime; // 速度＝初速-重力加速度*時間
 
+            if (JumpVel < -FallVelLimit)
+            {
+                JumpVel = -FallVelLimit; // 速度制限
+            }
+
             if (BodyCount < BodyCountLimit)
             {
                 // ジャンプの頂点の瞬間
@@ -484,7 +489,7 @@ public class Leg_Custom : MonoBehaviour
         }
     }
 
-    private void BodyLegCustomLvUp()
+    private void BodyLegCustomLvUp() // カスタムLvUp
     {
         if (CPData.BodyLegCustom_LvUp)
         {
@@ -547,7 +552,7 @@ public class Leg_Custom : MonoBehaviour
         } while (LvUp);
     }
 
-    private void BodyLegCustomChange()
+    private void BodyLegCustomChange() // カスタム切り替え
     {
         // ゲームパッド用
         var GamePad = Gamepad.current;
@@ -569,14 +574,29 @@ public class Leg_Custom : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) || R1ButtonDown) // 押した時
         {
             // BodyCustom切り替え
+            if (BodyCustomCurrent + 1 < BodyCustomNum)
+            {
+                BodyCustomCurrent++;
+            }
+            else
+            {
+                BodyCustomCurrent = 0;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Q) || L1ButtonDown) // 押した時
         {
             // LegCustom切り替え
+            if (LegCustomCurrent + 1 < LegCustomNum)
+            {
+                LegCustomCurrent++;
+            }
+            else
+            {
+                LegCustomCurrent = 0;
+            }
         }
     }
-
 
 
     private void InputLeg() // カスタム・レベルによる能力を反映する
